@@ -1,10 +1,10 @@
 QT += core
-QT += gui
+#QT += gui
 QT += network
 
 CONFIG += c++11
 
-TARGET = NeuronMake
+TARGET = NeuroMake
 CONFIG += console
 CONFIG -= app_bundle
 

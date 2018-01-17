@@ -79,7 +79,7 @@ bool tooldebug::SaveDataFrameList(std::vector<DataFrame*> framelist,const char *
 
 
 void tooldebug::SaveEngine(NeuronEngine* engine,const char * path){
-  const int neuron_buffer_size=1024;
+  const int neuron_buffer_size=2048;
   uint8_t neuron_buffer[neuron_buffer_size];
 
   FILE * file = fopen(path,"w");
@@ -91,7 +91,6 @@ void tooldebug::SaveEngine(NeuronEngine* engine,const char * path){
   for(int i=0; i<engine->NeuronCount();++i){
     const Neuron* ptrNeuron = engine->ReadNeuron(i);
     if(!ptrNeuron)break;
-
     fprintf(file,"%d,",ptrNeuron->Cat());
     fprintf(file,"%d,",ptrNeuron->MinAIF());
     fprintf(file,"%d,",ptrNeuron->Aif());
@@ -118,15 +117,38 @@ void tooldebug::SaveEngineFloat(NeuronEngineFloat *engine, const char *path){
   for(int i=0; i<engine->NeuronCount();++i){
     const NeuronFloat* ptrNeuron = engine->ReadNeuron(i);
     if(!ptrNeuron)break;
-
     fprintf(file,"%d,",ptrNeuron->Cat());
     fprintf(file,"%f,",ptrNeuron->MinAIF());
     fprintf(file,"%f,",ptrNeuron->Aif());
+
+    printf("%d,",ptrNeuron->Cat());
+    printf("%f,",ptrNeuron->MinAIF());
+    printf("%f,",ptrNeuron->Aif());
     int len = ptrNeuron->ReadNeuronMem(neuron_buffer,neuron_buffer_size);
     for(int k=0;k<len;++k){
       fprintf(file,"%f,",neuron_buffer[k]);
+      printf("%f,",neuron_buffer[k]);
     }
     fprintf(file,"\n");
+    printf("\n");
   }
   fclose(file);
+}
+
+void tooldebug::printEngineFloat(NeuronEngineFloat *engine){
+  const int neuron_buffer_size = engine->MaxNeuronMemLength();
+  float neuron_buffer[neuron_buffer_size];
+
+  for(int i=0; i<engine->NeuronCount();++i){
+    const NeuronFloat* ptrNeuron = engine->ReadNeuron(i);
+    if(!ptrNeuron)break;
+    printf("%d,",ptrNeuron->Cat());
+    printf("%f,",ptrNeuron->MinAIF());
+    printf("%f,",ptrNeuron->Aif());
+    int len = ptrNeuron->ReadNeuronMem(neuron_buffer,neuron_buffer_size);
+    for(int k=0;k<len;++k){
+      printf("%f,",neuron_buffer[k]);
+    }
+    printf("\n");
+  }
 }

@@ -71,6 +71,6 @@ class tooldebug{
        */
       void SaveEngine(NeuronEngine* engine,const char * path);
       void SaveEngineFloat(NeuronEngineFloat * engine,const char* path);
-    };
-}
+      void printEngineFloat(NeuronEngineFloat *engine);
+};
 #endif // DEBUGGINGTOOLKIT_H
